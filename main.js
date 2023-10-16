@@ -1,9 +1,7 @@
-// // variables
-
+// Variables
 let btn = document.querySelector('#new-quote');
 let quote = document.querySelector('.quote');
 let person = document.querySelector('.person');
-
 const quotes = [{
     quote: '"The righteous cry out, and the Lord hears them; he deliver them from all their troubles"',
     person: 'Psalms 34:17'
@@ -58,13 +56,25 @@ const quotes = [{
  }
 ]
 
-btn.addEventListener('click', function(){
-
+// Quote Generator
+btn.addEventListener('click', function () {
     let random = Math.floor(Math.random() * quotes.length);
-
     quote.innerText = quotes[random].quote;
     person.innerText = quotes[random].person;
-})
+    window.speechSynthesis.cancel();
+});
 
+// Text-to-Speech
+document.querySelector('#play').addEventListener('click', () => {
+    let speech = new SpeechSynthesisUtterance();
+    speech.text = quote.innerText + ' by ' + person.innerText;
+    window.speechSynthesis.speak(speech);
+});
 
+document.querySelector('#pause').addEventListener('click', () => {
+    window.speechSynthesis.pause();
+});
 
+document.querySelector('#again').addEventListener('click', () => {
+    window.speechSynthesis.resume();
+});
